@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "GameTime";
+    Layout = "~/Views/Shared/_GameTimeLayout.cshtml";
+}
+<style>
+    #container {
+        width: 400px;
+        height: 400px;
+        position: relative;
+        background: none;
+    }
+
+    #animate {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        background-color: blue;
+    }
+</style>
+
+
+<h2>GameTime</h2>
+<div class="row">
+    <div class="col-sm-offset-3 col-sm-6">
+        <div class="jumbotron">
+            <div id="container">
+                <div id="animate"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-offset-4">
+        <img src="~/Images/controller.png" usemap="#Map" />
+
+        <map name="Map" id="Map">
+            <area class="triangle" alt="#" title="" href="" shape="poly" coords="66,62,86,63,88,74,77,89,68,78" />
+            <area class="circle" alt="#" title="" href="#" shape="poly" coords="82,93,93,86,108,87,106,105,91,104" />
+            <area class="ecks" alt="#" title="" href="#" shape="poly" coords="67,124,86,126,86,111,76,102,66,110" />
+            <area class="square" alt="#" title="" href="#" shape="poly" coords="46,84,60,85,71,96,63,105,48,103" />
+        </map>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(".triangle").on("click", function (e) {
+            e.preventDefault();
+
+            $.post('@Url.Action("Triangle","Home",new { move=5 })').then(function (response) {
+
+                var elem = document.getElementById("animate");
+                var pos = 350;
+                var id = setInterval(frame, response);
+
+                function frame() {
+                    if (pos == 0) {
+                        clearInterval(id);
+                    } else {
+                        pos--;
+                        elem.style.top = pos + 'px';
+                        //elem.style.left = pos + 'px';
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(".circle").on("click", function (e) {
+            e.preventDefault();
+
+            $.post('@Url.Action("Circle","Home",new { move=10 })').then(function (response) {
+                var elem = document.getElementById("animate");
+                var pos = 0;
+                var id = setInterval(frame, response);
+
+                function frame() {
+                    if (pos == 400) {
+                        clearInterval(id);
+                    } else {
+                        pos++;
+                        //elem.style.top = pos + 'px';
+                        elem.style.left = pos + 'px';
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(".ecks").on("click", function (e) {
+            e.preventDefault();
+
+            $.post('@Url.Action("Ecks","Home",new { move=5 })').then(function (response) {
+
+                var elem = document.getElementById("animate");
+                var pos = 0;
+                var id = setInterval(frame, response);
+
+                function frame() {
+                    if (pos == 350) {
+                        clearInterval(id);
+                    } else {
+                        pos++;
+                        elem.style.top = pos + 'px';
+                        //elem.style.left = pos + 'px';
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(".square").on("click", function (e) {
+            e.preventDefault();
+
+            $.post('@Url.Action("Square","Home",new { move=5 })').then(function (response) {
+
+                var elem = document.getElementById("animate");
+                var pos = 400;
+                var id = setInterval(frame, response);
+
+                function frame() {
+                    if (pos == 0) {
+                        clearInterval(id);
+                    } else {
+                        pos--;
+                        //elem.style.top = pos + 'px';
+                        elem.style.left = pos + 'px';
+                    }
+                }
+            });
+        });
+    </script>
+
+}
+
+
+
+
